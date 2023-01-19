@@ -60,11 +60,19 @@ app.get('/info', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const id = Math.round(Math.random() * 10000)
-    response.json({ requestBody: request.body })
-    // let person = request.body
-    // person.id = id
-    // persons = [...persons, person]
-    // response.json(note)
+    const body = request.body
+    if (!body) {
+        return response.status(400).json({
+            error: 'content missing'
+        })
+    }
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: id
+    }
+    persons = [...persons, person]
+    response.json(persons)
 })
 
 const PORT = 3001
