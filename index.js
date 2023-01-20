@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan');
+const cors = require('cors')
+app.use(cors())
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :response-body'))
 
@@ -97,7 +99,7 @@ app.post('/api/persons', (request, response) => {
         id: id
     }
     persons = [...persons, person]
-    response.json(persons)
+    response.json(person)
 })
 
 const PORT = 3001
