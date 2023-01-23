@@ -1,6 +1,6 @@
-# fly.toml file generated for wandering-wood-4440 on 2023-01-20T16:50:50+02:00
+# fly.toml file generated for bitter-grass-687 on 2023-01-23T15:42:15+02:00
 
-app = "wandering-wood-4440"
+app = "bitter-grass-687"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
