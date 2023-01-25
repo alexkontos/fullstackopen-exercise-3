@@ -1,1 +1,1 @@
-GET http://localhost:3001/api/persons
+GET https://bitter-grass-687.fly.dev/api/persons
