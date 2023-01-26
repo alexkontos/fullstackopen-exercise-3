@@ -103,12 +103,20 @@ app.post('/api/persons', (request, response, next) => {
         number: body.number
     })
 
-    person.save()
-        .then(savedPerson => {
-            response.json(savedPerson)
+    Person.exists({ name: body.name })
+        .then((foundPerson) => {
+            if (foundPerson) {
+                return response.status(409).json({
+                    error: 'person exists'
+                }).end()
+            } else {
+                person.save()
+                    .then(savedPerson => {
+                        response.json(savedPerson)
+                    })
+                    .catch(error => next(error))
+            }
         })
-        .catch(error => next(error))
-
 })
 
 const unknownEndpoint = (req, res) => {
