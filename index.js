@@ -4,11 +4,14 @@ const app = express()
 const mongoose = require('mongoose')
 const morgan = require('morgan');
 const cors = require('cors')
+
 app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :response-body'))
-const Person = require('./models/person')
+
+const Person = require('./models/person');
+const { response } = require('express');
 
 morgan.token("response-body", (req, res) => {
     if (req.method === "POST") {
@@ -102,6 +105,22 @@ app.post('/api/persons', (request, response) => {
     })
 
 })
+
+const unknownEndpoint = (req, res) => {
+    res.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+const errorHandler = (error, req, res, next) => {
+    console.log(error.message);
+    if (error.name === 'CastError') {
+        return res.status(400).send({ error: 'malformatted id' })
+    }
+    next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
